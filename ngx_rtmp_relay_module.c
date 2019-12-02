@@ -353,8 +353,7 @@ ngx_rtmp_relay_create_connection(ngx_rtmp_conf_ctx_t *cctx, ngx_str_t* name,
 
     racf = ngx_rtmp_get_module_app_conf(cctx, ngx_rtmp_relay_module);
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, racf->log, 0,
-                   "relay: create remote context");
+    ngx_log_error(NGX_LOG_INFO, racf->log, 0, "relay: create remote context");
 
     pool = NULL;
     pool = ngx_create_pool(4096, racf->log);
