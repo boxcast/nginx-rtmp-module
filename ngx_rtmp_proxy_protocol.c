@@ -23,7 +23,7 @@ ngx_rtmp_proxy_protocol(ngx_rtmp_session_t *s)
     rev = c->read;
     rev->handler =  ngx_rtmp_proxy_protocol_recv;
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "proxy_protocol: start");
 
     if (rev->ready) {

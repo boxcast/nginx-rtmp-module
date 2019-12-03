@@ -155,7 +155,7 @@ ngx_rtmp_auto_push_init_process(ngx_cycle_t *cycle)
     reuseaddr = 1;
     s = (ngx_socket_t) -1;
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, cycle->log, 0,
+    ngx_log_error(NGX_LOG_INFO, cycle->log, 0,
             "auto_push: creating sockets");
 
     /*TODO: clone all RTMP listenings? */
@@ -347,7 +347,7 @@ ngx_rtmp_auto_push_reconnect(ngx_event_t *ev)
     ngx_core_conf_t                *ccf;
     ngx_file_info_t                 fi;
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "auto_push: reconnect");
 
     apcf = (ngx_rtmp_auto_push_conf_t *) ngx_get_conf(ngx_cycle->conf_ctx,

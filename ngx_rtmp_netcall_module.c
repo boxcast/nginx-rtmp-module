@@ -247,7 +247,7 @@ ngx_rtmp_netcall_create(ngx_rtmp_session_t *s, ngx_rtmp_netcall_init_t *ci)
     /* connect */
     rc = ngx_event_connect_peer(pc);
     if (rc != NGX_OK && rc != NGX_AGAIN ) {
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                 "netcall: connection failed");
         goto error;
     }
@@ -259,7 +259,7 @@ ngx_rtmp_netcall_create(ngx_rtmp_session_t *s, ngx_rtmp_netcall_init_t *ci)
 
     cs->out = ci->create(s, ci->arg, pool);
     if (cs->out == NULL) {
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                 "netcall: creation failed");
         ngx_close_connection(pc->connection);
         goto error;

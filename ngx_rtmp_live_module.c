@@ -452,7 +452,7 @@ ngx_rtmp_live_stream_begin(ngx_rtmp_session_t *s, ngx_rtmp_stream_begin_t *v)
         goto next;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "live: stream_begin");
 
     ngx_rtmp_live_start(s);
@@ -473,7 +473,7 @@ ngx_rtmp_live_stream_eof(ngx_rtmp_session_t *s, ngx_rtmp_stream_eof_t *v)
         goto next;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "live: stream_eof");
 
     ngx_rtmp_live_stop(s);
@@ -497,7 +497,7 @@ ngx_rtmp_live_join(ngx_rtmp_session_t *s, u_char *name, unsigned publisher)
 
     ctx = ngx_rtmp_get_module_ctx(s, ngx_rtmp_live_module);
     if (ctx && ctx->stream) {
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                        "live: already joined");
         return;
     }
@@ -582,7 +582,7 @@ ngx_rtmp_live_close_stream(ngx_rtmp_session_t *s, ngx_rtmp_close_stream_t *v)
     }
 
     if (ctx->stream == NULL) {
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                        "live: not joined");
         goto next;
     }
@@ -612,7 +612,7 @@ ngx_rtmp_live_close_stream(ngx_rtmp_session_t *s, ngx_rtmp_close_stream_t *v)
             for (pctx = ctx->stream->ctx; pctx; pctx = pctx->next) {
                 if (pctx->publishing == 0) {
                     ss = pctx->session;
-                    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, ss->connection->log, 0,
+                    ngx_log_error(NGX_LOG_INFO, ss->connection->log, 0,
                                    "live: no publisher");
                     ngx_rtmp_finalize_session(ss);
                 }
@@ -858,7 +858,7 @@ ngx_rtmp_live_av(ngx_rtmp_session_t *s, ngx_rtmp_header_t *h,
         /* send metadata */
 
         if (meta && meta_version != pctx->meta_version) {
-            ngx_log_debug0(NGX_LOG_DEBUG_RTMP, ss->connection->log, 0,
+            ngx_log_error(NGX_LOG_INFO, ss->connection->log, 0,
                            "live: meta");
 
             if (ngx_rtmp_send_message(ss, meta, 0) == NGX_OK) {
@@ -881,7 +881,7 @@ ngx_rtmp_live_av(ngx_rtmp_session_t *s, ngx_rtmp_header_t *h,
         if (!cs->active) {
 
             if (mandatory) {
-                ngx_log_debug0(NGX_LOG_DEBUG_RTMP, ss->connection->log, 0,
+                ngx_log_error(NGX_LOG_INFO, ss->connection->log, 0,
                                "live: skipping header");
                 continue;
             }
@@ -889,7 +889,7 @@ ngx_rtmp_live_av(ngx_rtmp_session_t *s, ngx_rtmp_header_t *h,
             if (lacf->wait_video && h->type == NGX_RTMP_MSG_AUDIO &&
                 !pctx->cs[0].active)
             {
-                ngx_log_debug0(NGX_LOG_DEBUG_RTMP, ss->connection->log, 0,
+                ngx_log_error(NGX_LOG_INFO, ss->connection->log, 0,
                                "live: waiting for video");
                 continue;
             }
@@ -897,7 +897,7 @@ ngx_rtmp_live_av(ngx_rtmp_session_t *s, ngx_rtmp_header_t *h,
             if (lacf->wait_key && prio != NGX_RTMP_VIDEO_KEY_FRAME &&
                (lacf->interleave || h->type == NGX_RTMP_MSG_VIDEO))
             {
-                ngx_log_debug0(NGX_LOG_DEBUG_RTMP, ss->connection->log, 0,
+                ngx_log_error(NGX_LOG_INFO, ss->connection->log, 0,
                                "live: skip non-key");
                 continue;
             }
@@ -996,7 +996,7 @@ ngx_rtmp_live_av(ngx_rtmp_session_t *s, ngx_rtmp_header_t *h,
             cs->dropped += delta;
 
             if (mandatory) {
-                ngx_log_debug0(NGX_LOG_DEBUG_RTMP, ss->connection->log, 0,
+                ngx_log_error(NGX_LOG_INFO, ss->connection->log, 0,
                                "live: mandatory packet failed");
                 ngx_rtmp_finalize_session(ss);
             }

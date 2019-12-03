@@ -578,17 +578,17 @@ ngx_rtmp_mp4_parse_hdlr(ngx_rtmp_session_t *s, u_char *pos, u_char *last)
         ctx->track->type = NGX_RTMP_MSG_VIDEO;
         ctx->track->csid = NGX_RTMP_CSID_VIDEO;
 
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                        "mp4: video track");
 
     } else if (type == ngx_rtmp_mp4_make_tag('s','o','u','n')) {
         ctx->track->type = NGX_RTMP_MSG_AUDIO;
         ctx->track->csid = NGX_RTMP_CSID_AUDIO;
 
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                        "mp4: audio track");
     } else {
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                        "mp4: unknown track");
     }
 
@@ -2375,7 +2375,7 @@ ngx_rtmp_mp4_init(ngx_rtmp_session_t *s, ngx_file_t *f, ngx_int_t aindex,
         }
 
         if (hdr[1] == ngx_rtmp_mp4_make_tag('m','o','o','v')) {
-            ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+            ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                            "mp4: found moov box");
             break;
         }

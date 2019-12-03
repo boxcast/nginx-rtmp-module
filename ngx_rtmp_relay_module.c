@@ -226,7 +226,7 @@ ngx_rtmp_relay_static_pull_reconnect(ngx_event_t *ev)
 
     racf = ngx_rtmp_get_module_app_conf(&rs->cctx, ngx_rtmp_relay_module);
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, racf->log, 0,
+    ngx_log_error(NGX_LOG_INFO, racf->log, 0,
                    "relay: reconnecting static pull");
 
     ctx = ngx_rtmp_relay_create_connection(&rs->cctx, &rs->target->name,
@@ -251,7 +251,7 @@ ngx_rtmp_relay_push_reconnect(ngx_event_t *ev)
     ngx_uint_t                      n;
     ngx_rtmp_relay_target_t        *target, **t;
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
             "relay: push reconnect");
 
     racf = ngx_rtmp_get_module_app_conf(s, ngx_rtmp_relay_module);
@@ -443,8 +443,7 @@ ngx_rtmp_relay_create_connection(ngx_rtmp_conf_ctx_t *cctx, ngx_str_t* name,
     }
 
     if (target->url.naddrs == 0) {
-        ngx_log_error(NGX_LOG_ERR, racf->log, 0,
-                      "relay: no address");
+        ngx_log_error(NGX_LOG_INFO, racf->log, 0, "relay: no address");
         goto clear;
     }
 
@@ -467,8 +466,7 @@ ngx_rtmp_relay_create_connection(ngx_rtmp_conf_ctx_t *cctx, ngx_str_t* name,
 
     rc = ngx_event_connect_peer(pc);
     if (rc != NGX_OK && rc != NGX_AGAIN ) {
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, racf->log, 0,
-                "relay: connection failed");
+        ngx_log_error(NGX_LOG_INFO, racf->log, 0, "relay: connection failed");
         goto clear;
     }
     c = pc->connection;
@@ -534,7 +532,7 @@ ngx_rtmp_relay_create_local_ctx(ngx_rtmp_session_t *s, ngx_str_t *name,
 {
     ngx_rtmp_relay_ctx_t           *ctx;
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "relay: create local context");
 
     ctx = ngx_rtmp_get_module_ctx(s, ngx_rtmp_relay_module);

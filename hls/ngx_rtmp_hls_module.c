@@ -1117,7 +1117,7 @@ ngx_rtmp_hls_restore_stream(ngx_rtmp_session_t *s)
 
                 discont = 1;
 
-                ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+                ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                                "hls: discontinuity");
             }
 
@@ -1488,7 +1488,7 @@ ngx_rtmp_hls_close_stream(ngx_rtmp_session_t *s, ngx_rtmp_close_stream_t *v)
         goto next;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "hls: close stream");
 
     ngx_rtmp_hls_close_fragment(s);
@@ -1752,7 +1752,7 @@ ngx_rtmp_hls_audio(ngx_rtmp_session_t *s, ngx_rtmp_header_t *h,
                    "hls: audio pts=%uL", pts);
 
     if (b->last + 7 > b->end) {
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                        "hls: not enough buffer for audio header");
         return NGX_OK;
     }

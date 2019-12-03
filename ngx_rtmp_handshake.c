@@ -204,7 +204,7 @@ ngx_rtmp_alloc_handshake_buffer(ngx_rtmp_session_t *s)
     ngx_chain_t                *cl;
     ngx_buf_t                  *b;
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
             "handshake: allocating buffer");
 
     cscf = ngx_rtmp_get_module_srv_conf(s, ngx_rtmp_core_module);
@@ -358,7 +358,7 @@ ngx_rtmp_handshake_done(ngx_rtmp_session_t *s)
 {
     ngx_rtmp_free_handshake_buffers(s);
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
             "handshake: done");
 
     if (ngx_rtmp_fire_event(s, NGX_RTMP_HANDSHAKE_DONE,
@@ -440,7 +440,7 @@ ngx_rtmp_handshake_recv(ngx_event_t *rev)
                 return;
             }
             if (s->hs_old) {
-                ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+                ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                         "handshake: old-style challenge");
                 s->hs_buf->pos = s->hs_buf->start;
                 s->hs_buf->last = s->hs_buf->end;
@@ -546,7 +546,7 @@ ngx_rtmp_handshake_send(ngx_event_t *wev)
     switch (s->hs_stage) {
         case NGX_RTMP_HANDSHAKE_SERVER_SEND_RESPONSE:
             if (s->hs_old) {
-                ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+                ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                         "handshake: old-style response");
                 s->hs_buf->pos = s->hs_buf->start + 1;
                 s->hs_buf->last = s->hs_buf->end;
@@ -585,7 +585,7 @@ ngx_rtmp_handshake(ngx_rtmp_session_t *s)
     c->read->handler =  ngx_rtmp_handshake_recv;
     c->write->handler = ngx_rtmp_handshake_send;
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
             "handshake: start server handshake");
 
     s->hs_buf = ngx_rtmp_alloc_handshake_buffer(s);
@@ -604,8 +604,7 @@ ngx_rtmp_client_handshake(ngx_rtmp_session_t *s, unsigned async)
     c->read->handler =  ngx_rtmp_handshake_recv;
     c->write->handler = ngx_rtmp_handshake_send;
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
-            "handshake: start client handshake");
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "handshake: start client handshake");
 
     s->hs_buf = ngx_rtmp_alloc_handshake_buffer(s);
     s->hs_stage = NGX_RTMP_HANDSHAKE_CLIENT_SEND_CHALLENGE;

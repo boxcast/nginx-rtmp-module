@@ -273,7 +273,7 @@ ngx_rtmp_recv(ngx_event_t *rev)
             s->in_bytes += n;
 
             if (s->in_bytes >= 0xf0000000) {
-                ngx_log_debug0(NGX_LOG_DEBUG_RTMP, c->log, 0,
+                ngx_log_error(NGX_LOG_INFO, c->log, 0,
                                "resetting byte counter");
                 s->in_bytes = 0;
                 s->in_last_ack = 0;

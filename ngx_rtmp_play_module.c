@@ -198,7 +198,7 @@ ngx_rtmp_play_join(ngx_rtmp_session_t *s)
     ngx_rtmp_play_app_conf_t   *pacf;
     ngx_uint_t                  h;
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "play: join");
 
     pacf = ngx_rtmp_get_module_app_conf(s, ngx_rtmp_play_module);
@@ -233,7 +233,7 @@ ngx_rtmp_play_leave(ngx_rtmp_session_t *s)
     ngx_rtmp_play_app_conf_t   *pacf;
     ngx_uint_t                  h;
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "play: leave");
 
     pacf = ngx_rtmp_get_module_app_conf(s, ngx_rtmp_play_module);
@@ -288,7 +288,7 @@ ngx_rtmp_play_send(ngx_event_t *e)
     }
 
     if (rc == NGX_AGAIN) {
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                        "play: send buffer full");
 
         ngx_post_event(e, &s->posted_dry_events);
@@ -296,7 +296,7 @@ ngx_rtmp_play_send(ngx_event_t *e)
     }
 
     if (rc == NGX_OK) {
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                        "play: send restart");
 
         ngx_post_event(e, &ngx_posted_events);
@@ -304,7 +304,7 @@ ngx_rtmp_play_send(ngx_event_t *e)
     }
 
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "play: send done");
 
     ngx_rtmp_send_stream_eof(s, NGX_RTMP_MSID);
@@ -368,7 +368,7 @@ ngx_rtmp_play_do_start(ngx_rtmp_session_t *s)
         return NGX_ERROR;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "play: start");
 
     if (ctx->fmt && ctx->fmt->start &&
@@ -424,7 +424,7 @@ ngx_rtmp_play_do_stop(ngx_rtmp_session_t *s)
         return NGX_ERROR;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "play: stop");
 
     if (ctx->send_evt.timer_set) {
@@ -546,7 +546,7 @@ ngx_rtmp_play_close_stream(ngx_rtmp_session_t *s, ngx_rtmp_close_stream_t *v)
         goto next;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "play: close_stream");
 
     ngx_rtmp_play_do_stop(s);
@@ -624,7 +624,7 @@ ngx_rtmp_play_pause(ngx_rtmp_session_t *s, ngx_rtmp_pause_t *v)
     }
 
     if (!ctx->opened) {
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                        "play: pause ignored");
         goto next;
     }
@@ -835,7 +835,7 @@ ngx_rtmp_play_next_entry(ngx_rtmp_session_t *s, ngx_rtmp_play_t *v)
                        0 : ctx->nentry + 1);
 
         if (ctx->nentry >= pacf->entries.nelts) {
-            ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+            ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                            "play: all entries failed");
 
             ngx_rtmp_send_status(s, "NetStream.Play.StreamNotFound", "error",
@@ -1021,7 +1021,7 @@ ngx_rtmp_play_remote_handle(ngx_rtmp_session_t *s, void *arg, ngx_chain_t *in)
         ngx_rtmp_play_copy_local_file(s, v->name);
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "play: open remote file");
 
     if (ngx_rtmp_play_open(s, v->start) != NGX_OK) {

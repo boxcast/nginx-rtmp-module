@@ -636,7 +636,7 @@ ngx_rtmp_dash_close_fragments(ngx_rtmp_session_t *s)
         return NGX_OK;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "dash: close fragments");
 
     ngx_rtmp_dash_close_fragment(s, &ctx->video);
@@ -706,7 +706,7 @@ ngx_rtmp_dash_open_fragments(ngx_rtmp_session_t *s)
 {
     ngx_rtmp_dash_ctx_t  *ctx;
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "dash: open fragments");
 
     ctx = ngx_rtmp_get_module_ctx(s, ngx_rtmp_dash_module);
@@ -967,7 +967,7 @@ ngx_rtmp_dash_close_stream(ngx_rtmp_session_t *s, ngx_rtmp_close_stream_t *v)
         goto next;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "dash: delete stream");
 
     ngx_rtmp_dash_close_fragments(s);

@@ -658,7 +658,7 @@ ngx_rtmp_record_start(ngx_rtmp_session_t *s)
         return;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "record: start");
 
     rctx = ctx->rec.elts;
@@ -689,7 +689,7 @@ ngx_rtmp_record_stop(ngx_rtmp_session_t *s)
         return;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "record: stop");
 
     rctx = ctx->rec.elts;
@@ -754,7 +754,7 @@ ngx_rtmp_record_stream_begin(ngx_rtmp_session_t *s, ngx_rtmp_stream_begin_t *v)
         goto next;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "record: stream_begin");
 
     ngx_rtmp_record_start(s);
@@ -771,7 +771,7 @@ ngx_rtmp_record_stream_eof(ngx_rtmp_session_t *s, ngx_rtmp_stream_begin_t *v)
         goto next;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "record: stream_eof");
 
     ngx_rtmp_record_stop(s);
@@ -858,7 +858,7 @@ ngx_rtmp_record_close_stream(ngx_rtmp_session_t *s,
         goto next;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "record: close_stream");
 
     ngx_rtmp_record_stop(s);

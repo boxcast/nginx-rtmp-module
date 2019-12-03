@@ -970,7 +970,7 @@ ngx_rtmp_notify_connect_handle(ngx_rtmp_session_t *s,
     }
 
     if (rc == NGX_AGAIN) {
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                        "notify: connect redirect received");
 
         rc = ngx_rtmp_notify_parse_http_header(s, in, &location, app,
@@ -1028,7 +1028,7 @@ ngx_rtmp_notify_publish_handle(ngx_rtmp_session_t *s,
 
     /* HTTP 3xx */
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "notify: publish redirect received");
 
     rc = ngx_rtmp_notify_parse_http_header(s, in, &location, name,
@@ -1107,7 +1107,7 @@ ngx_rtmp_notify_play_handle(ngx_rtmp_session_t *s,
 
     /* HTTP 3xx */
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                    "notify: play redirect received");
 
     rc = ngx_rtmp_notify_parse_http_header(s, in, &location, name,

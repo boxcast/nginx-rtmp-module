@@ -154,7 +154,7 @@ ngx_rtmp_flv_init_index(ngx_rtmp_session_t *s, ngx_chain_t *in)
         return NGX_OK;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                   "flv: init index");
 
     ngx_memzero(&filepositions_ctx, sizeof(filepositions_ctx));
@@ -327,7 +327,7 @@ ngx_rtmp_flv_read_meta(ngx_rtmp_session_t *s, ngx_file_t *f)
         return;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                   "flv: read meta");
 
     /* read tag header */
@@ -341,7 +341,7 @@ ngx_rtmp_flv_read_meta(ngx_rtmp_session_t *s, ngx_file_t *f)
     }
 
     if (ngx_rtmp_flv_header[0] != NGX_RTMP_MSG_AMF_META) {
-        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                       "flv: first tag is not metadata, giving up");
         return;
     }
@@ -587,7 +587,7 @@ ngx_rtmp_flv_start(ngx_rtmp_session_t *s, ngx_file_t *f)
         return NGX_OK;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                   "flv: start");
 
     ctx->offset = -1;
@@ -631,7 +631,7 @@ ngx_rtmp_flv_stop(ngx_rtmp_session_t *s, ngx_file_t *f)
         return NGX_OK;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
                   "flv: stop");
 
     return NGX_OK;

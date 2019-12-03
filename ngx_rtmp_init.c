@@ -256,7 +256,7 @@ ngx_rtmp_close_connection(ngx_connection_t *c)
 {
     ngx_pool_t                         *pool;
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, c->log, 0, "close connection");
+    ngx_log_error(NGX_LOG_INFO, c->log, 0, "close connection");
 
 #if (NGX_STAT_STUB)
     (void) ngx_atomic_fetch_add(ngx_stat_active, -1);
@@ -280,7 +280,7 @@ ngx_rtmp_close_session_handler(ngx_event_t *e)
 
     cscf = ngx_rtmp_get_module_srv_conf(s, ngx_rtmp_core_module);
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, c->log, 0, "close session");
+    ngx_log_error(NGX_LOG_INFO, c->log, 0, "close session");
 
     ngx_rtmp_fire_event(s, NGX_RTMP_DISCONNECT, NULL, NULL);
 
@@ -318,7 +318,7 @@ ngx_rtmp_finalize_session(ngx_rtmp_session_t *s)
         return;
     }
 
-    ngx_log_debug0(NGX_LOG_DEBUG_RTMP, c->log, 0, "finalize session");
+    ngx_log_error(NGX_LOG_INFO, c->log, 0, "finalize session");
 
     c->destroyed = 1;
     e = &s->close;
