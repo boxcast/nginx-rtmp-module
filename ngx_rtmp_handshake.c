@@ -516,13 +516,15 @@ ngx_rtmp_handshake_send(ngx_event_t *wev)
         ngx_del_timer(wev);
     }
 
-    ngx_log_error(NGX_LOG_INFO, c->log, 0,
-                "handshake: addr_text: '%V'", &c->addr_text);
-
     b = s->hs_buf;
 
     while(b->pos != b->last) {
         n = c->send(c, b->pos, b->last - b->pos);
+
+        if(ngx_strncmp(&c->addr_text.data, "10.0.10.69:1937/live/new-stream", &c->addr_text.len) == 0) {
+            ngx_log_error(NGX_LOG_INFO, c->log, 0, "handshake: send: returning NGX_AGAIN instead of %ui", n);
+            n = NGX_AGAIN;
+        }
 
         if (n == NGX_ERROR) {
             ngx_rtmp_finalize_session(s);
