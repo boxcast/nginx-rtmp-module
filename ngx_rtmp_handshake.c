@@ -498,6 +498,9 @@ ngx_rtmp_handshake_send(ngx_event_t *wev)
     c = wev->data;
     s = c->data;
 
+    ngx_log_error(NGX_LOG_INFO, c->log, 0,
+                "handshake: send: started");
+
     if (c->destroyed) {
         return;
     }
@@ -525,6 +528,13 @@ ngx_rtmp_handshake_send(ngx_event_t *wev)
         }
 
         if (n == NGX_AGAIN || n == 0) {
+            if (n == NGX_AGAIN) {
+                ngx_log_error(NGX_LOG_INFO, c->log, 0,
+                    "handshake: send: received NGX_AGAIN");
+            } else {
+                ngx_log_error(NGX_LOG_INFO, c->log, 0,
+                    "handshake: send: sent 0 bytes");
+            }
             ngx_add_timer(c->write, s->timeout);
             if (ngx_handle_write_event(c->write, 0) != NGX_OK) {
                 ngx_rtmp_finalize_session(s);
@@ -540,7 +550,7 @@ ngx_rtmp_handshake_send(ngx_event_t *wev)
     }
 
     ++s->hs_stage;
-    ngx_log_debug1(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0,
             "handshake: stage %ui", s->hs_stage);
 
     switch (s->hs_stage) {
@@ -618,6 +628,8 @@ ngx_rtmp_client_handshake(ngx_rtmp_session_t *s, unsigned async)
     }
 
     if (async) {
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "handshake: start client handshake async");
+
         ngx_add_timer(c->write, s->timeout);
         if (ngx_handle_write_event(c->write, 0) != NGX_OK) {
             ngx_rtmp_finalize_session(s);
