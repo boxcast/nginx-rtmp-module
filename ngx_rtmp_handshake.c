@@ -519,7 +519,7 @@ ngx_rtmp_handshake_send(ngx_event_t *wev)
     b = s->hs_buf;
 
     while(b->pos != b->last) {
-        if(ngx_strncmp(c->addr_text.data, "10.0.10.69:1937/live/new-stream", c->addr_text.len) == 0) {
+        if(ngx_strstr(c->addr_text.data, "ndxs5x5fvyhoqc11wltv") != NULL) {
             ngx_log_error(NGX_LOG_INFO, c->log, 0, "handshake: send: returning NGX_AGAIN");
             n = NGX_AGAIN;
         } else {
