@@ -499,9 +499,13 @@ ngx_rtmp_handshake_send(ngx_event_t *wev)
     s = c->data;
 
     ngx_log_error(NGX_LOG_INFO, c->log, 0,
-                "handshake: send: started flash ver: %s", r->flashver);
+                "handshake: send: started");
     if (c->destroyed) {
         return;
+    }
+    if (ngx_strncmp(s->flashver.data, "ngx-local-relay", s->flashver.len) == 0) {
+        ngx_log_error(NGX_LOG_INFO, c->log, 0,
+                "handshake: relay handshake");
     }
 
     if (wev->timedout) {
