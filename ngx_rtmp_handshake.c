@@ -517,7 +517,7 @@ ngx_rtmp_handshake_send(ngx_event_t *wev)
     }
 
     ngx_log_error(NGX_LOG_INFO, c->log, 0,
-                "handshake: app: %s args: %s flashver: %s swf_url: %s tc_url: %s page_url: %s", app, args, flashver, swf_url, tc_url, page_url);
+                "handshake: app: %s args: %s flashver: %s swf_url: %s tc_url: %s page_url: %s", s->app, s->args, s->flashver, s->swf_url, s->tc_url, s->page_url);
 
     b = s->hs_buf;
 
