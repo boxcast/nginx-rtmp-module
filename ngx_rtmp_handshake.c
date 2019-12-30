@@ -503,10 +503,6 @@ ngx_rtmp_handshake_send(ngx_event_t *wev)
     if (c->destroyed) {
         return;
     }
-    if (ngx_strncmp(s->flashver.data, "ngx-local-relay", s->flashver.len) == 0) {
-        ngx_log_error(NGX_LOG_INFO, c->log, 0,
-                "handshake: relay handshake");
-    }
 
     if (wev->timedout) {
         ngx_log_error(NGX_LOG_INFO, c->log, NGX_ETIMEDOUT,
@@ -518,6 +514,16 @@ ngx_rtmp_handshake_send(ngx_event_t *wev)
 
     if (wev->timer_set) {
         ngx_del_timer(wev);
+    }
+
+    if (ngx_strncmp(s->flashver.data, "ngx-local-relay", s->flashver.len) == 0) {
+        ngx_log_error(NGX_LOG_INFO, c->log, 0,
+                "handshake: relay handshake: testing lock up");
+        ngx_add_timer(c->write, s->timeout);
+        if (ngx_handle_write_event(c->write, 0) != NGX_OK) {
+            ngx_rtmp_finalize_session(s);
+        }
+        return;
     }
 
     b = s->hs_buf;
