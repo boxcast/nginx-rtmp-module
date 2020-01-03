@@ -586,7 +586,7 @@ ngx_rtmp_relay_create(ngx_rtmp_session_t *s, ngx_str_t *name,
     ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: finding context");
 
     hash = ngx_hash_key(name->data, name->len);
-    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: generated hash '%d' for '%V'", hash, name);
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: generated hash '%u' for '%V' put in bucket '%u'", hash, name, (hash % racf->nbuckets));
     cctx = &racf->ctx[hash % racf->nbuckets];
     for (; *cctx; cctx = &(*cctx)->next) {
         if ((*cctx)->name.len == name->len && !ngx_memcmp(name->data, (*cctx)->name.data, name->len)) {
