@@ -573,7 +573,6 @@ ngx_rtmp_relay_create(ngx_rtmp_session_t *s, ngx_str_t *name,
     ngx_rtmp_relay_ctx_t           *publish_ctx, *play_ctx, **cctx;
     ngx_uint_t                      hash;
 
-
     racf = ngx_rtmp_get_module_app_conf(s, ngx_rtmp_relay_module);
     if (racf == NULL) {
         return NGX_ERROR;
@@ -584,23 +583,29 @@ ngx_rtmp_relay_create(ngx_rtmp_session_t *s, ngx_str_t *name,
         return NGX_ERROR;
     }
 
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: finding context");
+
     hash = ngx_hash_key(name->data, name->len);
     cctx = &racf->ctx[hash % racf->nbuckets];
     for (; *cctx; cctx = &(*cctx)->next) {
-        if ((*cctx)->name.len == name->len
-            && !ngx_memcmp(name->data, (*cctx)->name.data,
-                name->len))
-        {
+        if ((*cctx)->name.len == name->len && !ngx_memcmp(name->data, (*cctx)->name.data, name->len)) {
+            ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: found context for '%V'", name);
             break;
         }
+
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: context does not match relay name: '%V' != '%V'", (*cctx)->name, name);
     }
 
     if (*cctx) {
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: found context");
+
         play_ctx->publish = (*cctx)->publish;
         play_ctx->next = (*cctx)->play;
         (*cctx)->play = play_ctx;
         return NGX_OK;
     }
+
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: context is nil creating");
 
     publish_ctx = create_publish_ctx(s, name, target);
     if (publish_ctx == NULL) {
