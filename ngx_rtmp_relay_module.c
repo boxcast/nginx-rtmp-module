@@ -594,7 +594,7 @@ ngx_rtmp_relay_create(ngx_rtmp_session_t *s, ngx_str_t *name,
             break;
         }
 
-        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: context does not match relay name: '%V' != '%V'", (*cctx)->name, name);
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: context does not match relay name: '%V' != '%V'", &(*cctx)->name, name);
     }
 
     if (*cctx) {
