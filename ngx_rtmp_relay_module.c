@@ -605,7 +605,7 @@ ngx_rtmp_relay_create(ngx_rtmp_session_t *s, ngx_str_t *name,
         return NGX_OK;
     }
 
-    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: context is nil creating");
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: creating context for '%V'", name);
 
     publish_ctx = create_publish_ctx(s, name, target);
     if (publish_ctx == NULL) {
