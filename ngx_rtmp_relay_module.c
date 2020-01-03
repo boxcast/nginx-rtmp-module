@@ -185,7 +185,7 @@ ngx_rtmp_relay_create_app_conf(ngx_conf_t *cf)
         return NULL;
     }
 
-    racf->nbuckets = 1024;
+    racf->nbuckets = 20;
     racf->log = &cf->cycle->new_log;
     racf->buflen = NGX_CONF_UNSET_MSEC;
     racf->session_relay = NGX_CONF_UNSET;
