@@ -185,7 +185,7 @@ ngx_rtmp_relay_create_app_conf(ngx_conf_t *cf)
         return NULL;
     }
 
-    racf->nbuckets = 1024;
+    racf->nbuckets = 20;
     racf->log = &cf->cycle->new_log;
     racf->buflen = NGX_CONF_UNSET_MSEC;
     racf->session_relay = NGX_CONF_UNSET;
@@ -1336,6 +1336,10 @@ ngx_rtmp_relay_close(ngx_rtmp_session_t *s)
         return;
     }
 
+    ngx_log_error(NGX_LOG_INFO, ctx->session->connection->log, 0,
+            "relay: close app='%V' name='%V'",
+            &ctx->app, &ctx->name);
+
     if (s->static_relay) {
         ngx_add_timer(ctx->static_evt, racf->pull_reconnect);
     }
@@ -1419,6 +1423,8 @@ ngx_rtmp_relay_close_stream(ngx_rtmp_session_t *s, ngx_rtmp_close_stream_t *v)
 {
     ngx_rtmp_relay_app_conf_t  *racf;
 
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: closeStream");
+
     racf = ngx_rtmp_get_module_app_conf(s, ngx_rtmp_relay_module);
     if (racf && !racf->session_relay) {
         ngx_rtmp_relay_close(s);
@@ -1431,6 +1437,8 @@ ngx_rtmp_relay_close_stream(ngx_rtmp_session_t *s, ngx_rtmp_close_stream_t *v)
 static ngx_int_t
 ngx_rtmp_relay_delete_stream(ngx_rtmp_session_t *s, ngx_rtmp_delete_stream_t *v)
 {
+    ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: deleteStream");
+
     ngx_rtmp_relay_close(s);
 
     return next_delete_stream(s, v);
