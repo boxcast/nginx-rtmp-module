@@ -1348,6 +1348,7 @@ ngx_rtmp_relay_close(ngx_rtmp_session_t *s)
     }
 
     if (ctx->publish == NULL) {
+        ngx_log_error(NGX_LOG_INFO, ctx->session->connection->log, 0, "relay: pubish is nil");
         return;
     }
 
