@@ -593,7 +593,10 @@ ngx_rtmp_relay_create(ngx_rtmp_session_t *s, ngx_str_t *name,
             ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: found context for '%V'", name);
             break;
         }
-
+        if (cctx == &(*cctx)->next) {
+            ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: pointers are the same");
+            exit(1);
+        }
         ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: context does not match relay name: '%V' != '%V'", &(*cctx)->name, name);
     }
 
