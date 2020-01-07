@@ -541,6 +541,7 @@ ngx_rtmp_relay_create_local_ctx(ngx_rtmp_session_t *s, ngx_str_t *name,
         if (ctx == NULL) {
             return NULL;
         }
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: allocating new context");
         ngx_rtmp_set_ctx(s, ctx, ngx_rtmp_relay_module);
     }
     ctx->session = s;
@@ -550,7 +551,14 @@ ngx_rtmp_relay_create_local_ctx(ngx_rtmp_session_t *s, ngx_str_t *name,
     ctx->push_evt.handler = ngx_rtmp_relay_push_reconnect;
 
     if (ctx->publish) {
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: publish is nil");
         return NULL;
+    }
+
+    if (ctx->next) {
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: next is app='%V' name='%V'", &ctx->next->app, &ctx->next->name);
+    } else {
+        ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: next is NULL");
     }
 
     if (ngx_rtmp_relay_copy_str(s->connection->pool, &ctx->name, name)
