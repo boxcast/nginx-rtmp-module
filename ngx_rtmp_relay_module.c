@@ -603,6 +603,10 @@ ngx_rtmp_relay_create(ngx_rtmp_session_t *s, ngx_str_t *name,
     if (*cctx) {
         ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: found context");
 
+        if ((*cctx)->publish == NULL) {
+            ngx_log_error(NGX_LOG_INFO, s->connection->log, 0, "relay: assigning a null publish context");
+        }
+
         play_ctx->publish = (*cctx)->publish;
         play_ctx->next = (*cctx)->play;
         (*cctx)->play = play_ctx;
