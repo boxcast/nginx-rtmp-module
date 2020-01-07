@@ -1435,6 +1435,7 @@ ngx_rtmp_relay_close(ngx_rtmp_session_t *s)
             ngx_log_error(NGX_LOG_INFO, ctx->session->connection->log, 0, "relay: assigning cctx to NULL");
         }
         *cctx = ctx->next;
+        ctx->next = NULL; // Reset next for when ctx gets reused.
         if (*cctx && (*cctx)->next) {
             ngx_log_error(NGX_LOG_INFO, ctx->session->connection->log, 0, "relay: cctx next is app='%V' name='%V'", &(*cctx)->next->app, &(*cctx)->next->name);
         } else {
