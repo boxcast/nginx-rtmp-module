@@ -1421,6 +1421,11 @@ ngx_rtmp_relay_close(ngx_rtmp_session_t *s)
     cctx = &racf->ctx[hash % racf->nbuckets];
     for (; *cctx && *cctx != ctx; cctx = &(*cctx)->next);
     if (*cctx) {
+        if (ctx->next) {
+            ngx_log_error(NGX_LOG_INFO, ctx->session->connection->log, 0, "relay: assigning cctx to app='%V' name='%V'", &ctx->next->app, &ctx->next->name);
+        } else {
+            ngx_log_error(NGX_LOG_INFO, ctx->session->connection->log, 0, "relay: assigning cctx to NULL");
+        }
         *cctx = ctx->next;
     }
 }
